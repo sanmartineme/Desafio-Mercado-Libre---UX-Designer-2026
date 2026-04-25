@@ -1,0 +1,480 @@
+
+<h2 class="sr-only">Benchmark de funcionalidades de recomendación social en plataformas de streaming: Netflix, Amazon Prime, Disney Plus, HBO Max, Apple TV+, Crunchyroll y Steam</h2>
+
+<style>
+  .bm-wrap { padding: 1rem 0 2rem; }
+
+  .bm-intro { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 2rem; }
+  .bm-stat { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+  .bm-stat-label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+  .bm-stat-val { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+
+  .bm-platform { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 14px; overflow: hidden; background: var(--color-background-primary); }
+  .bm-platform-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 0.5px solid var(--color-border-tertiary); cursor: pointer; user-select: none; }
+  .bm-logo { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .bm-platform-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .bm-platform-sub { font-size: 12px; color: var(--color-text-secondary); }
+  .bm-chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+  .bm-chevron.open { transform: rotate(180deg); }
+
+  .bm-body { padding: 16px 20px; display: none; }
+  .bm-body.open { display: block; }
+
+  .bm-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .bm-col-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-text-tertiary); margin-bottom: 8px; }
+
+  .feat-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 12px; color: var(--color-text-secondary); line-height: 1.4; }
+  .feat-row:last-child { border-bottom: none; }
+  .feat-icon { width: 16px; height: 16px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; margin-top: 1px; }
+  .fi-yes { background: #EAF3DE; color: #27500A; }
+  .fi-no  { background: #FCEBEB; color: #791F1F; }
+  .fi-par { background: #FAEEDA; color: #633806; }
+
+  .insight-row { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; font-size: 12px; color: var(--color-text-secondary); line-height: 1.4; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .insight-row:last-child { border-bottom: none; }
+  .ins-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+
+  .bm-quote { background: var(--color-background-secondary); border-left: 2px solid var(--color-border-secondary); border-radius: 0; padding: 10px 14px; margin-top: 12px; font-size: 12px; font-style: italic; color: var(--color-text-secondary); line-height: 1.5; }
+
+  .verdict-row { display: flex; gap: 8px; align-items: center; padding: 8px 12px; border-radius: var(--border-radius-md); margin-top: 12px; font-size: 12px; font-weight: 500; }
+  .v-adopt { background: #EAF3DE; color: #27500A; }
+  .v-avoid { background: #FCEBEB; color: #791F1F; }
+
+  .pattern-section { margin-top: 2rem; }
+  .pattern-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .pattern-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .pattern-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 14px 16px; }
+  .pattern-card h4 { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+  .pattern-card p { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; margin: 0; }
+  .pattern-card .pc-tag { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; padding: 2px 7px; border-radius: 99px; display: inline-block; margin-bottom: 6px; }
+  .tag-pattern { background: #E6F1FB; color: #0C447C; }
+  .tag-gap { background: #FCEBEB; color: #791F1F; }
+  .tag-opp { background: #EAF3DE; color: #27500A; }
+
+  .matrix-wrap { margin-top: 2rem; }
+  .matrix-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .matrix-table th { padding: 8px 10px; text-align: left; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-text-tertiary); background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .matrix-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); vertical-align: middle; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .matrix-table .platform-cell { font-weight: 500; color: var(--color-text-primary); white-space: nowrap; }
+  .dot-yes { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #639922; }
+  .dot-no  { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #E24B4A; }
+  .dot-par { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #BA7517; }
+  .dot-disc { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #E24B4A; opacity: 0.4; }
+
+  .legend { display: flex; gap: 16px; margin-top: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); }
+
+  .highlight-box { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px; margin-top: 2rem; background: var(--color-background-primary); }
+  .highlight-box h3 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+  .highlight-items { display: flex; flex-direction: column; gap: 6px; }
+  .hi-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--color-text-secondary); line-height: 1.4; }
+  .hi-num { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); min-width: 18px; flex-shrink: 0; margin-top: 1px; }
+</style>
+
+<div class="bm-wrap">
+
+  <div class="bm-intro">
+    <div class="bm-stat"><div class="bm-stat-label">Plataformas analizadas</div><div class="bm-stat-val">7</div></div>
+    <div class="bm-stat"><div class="bm-stat-label">Funcionalidades relevadas</div><div class="bm-stat-val">8</div></div>
+    <div class="bm-stat"><div class="bm-stat-label">Features discontinuadas</div><div class="bm-stat-val">3</div></div>
+    <div class="bm-stat"><div class="bm-stat-label">Brecha detectada</div><div class="bm-stat-val">Alta</div></div>
+  </div>
+
+  <!-- NETFLIX -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#141414;">🎬</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Netflix</div>
+        <div class="bm-platform-sub">Recomendación algorítmica · sin social nativo activo</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Recomendaciones algorítmicas (80% del descubrimiento)</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Fila "Porque tu amigo X vio..." (integración Facebook, discontinuada en 2010)</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Compartir momentos específicos de contenido (feature 2024–2025)</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Red social de amigos nativa (eliminada en 2010 por baja adopción)</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Lista compartida con contactos</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Envío de recomendaciones persona a persona dentro de la app</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Integración SharePlay (no soportada)</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#185FA5"></div>Netflix eliminó su feature de amigos porque "tus amigos tienen mal gusto" — los usuarios no querían que sus contactos vean todo lo que miran. Privacidad > visibilidad.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#185FA5"></div>El "momento compartido" funciona mejor que el "perfil social": compartir una escena concreta tiene más valor que mostrar historial completo.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#185FA5"></div>El 80% del descubrimiento vía algoritmo es la referencia del sector — pero no resuelve la confianza: los usuarios buscan validación humana, no de máquina.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"Friends let you see what they watched and what they recommended. Netflix killed the feature in 2010 as part of its 'scraping barnacles' discipline — removing features members didn't value." — Gibson Biddle, ex Netflix CPO</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: compartir momentos específicos, no historial completo</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: visibilidad forzada del comportamiento de otros usuarios</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMAZON PRIME -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#00A8E0;">📦</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Amazon Prime Video</div>
+        <div class="bm-platform-sub">Watch Party discontinuado 2024 · Share Playlist activo</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Watch Party — sincronización remota con chat (hasta 100 personas). Eliminado en abril 2024.</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Share Playlist — compartir listas de contenido por enlace externo (Android, 2025)</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Integración SharePlay (no soportada)</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Perfil de amigos o red social nativa</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Recomendación algorítmica estándar por comportamiento</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#00A8E0"></div>Amazon discontinuó Watch Party sin reemplazante: indica que el co-watching remoto tiene baja retención a largo plazo fuera de contextos especiales (pandemia).</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#00A8E0"></div>Share Playlist es el pivot inteligente: pasar de "ver juntos en tiempo real" a "curar y compartir listas asíncronamente". Menor fricción, mayor utilidad cotidiana.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#00A8E0"></div>El modelo asíncrono (compartir para que el otro vea cuando quiera) es más sostenible que el síncrono (ver juntos a la misma hora).</div>
+        </div>
+      </div>
+      <div class="bm-quote">"Amazon Prime Video's Watch Party feature was discontinued on April 2, 2024. Amazon has not made any official statement regarding a replacement." — múltiples fuentes, 2024</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: Share Playlist / recomendación asíncrona por enlace</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: sincronización de reproducción como feature principal (bajo uso sostenido)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISNEY PLUS -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#0F2560;">🏰</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Disney+</div>
+        <div class="bm-platform-sub">GroupWatch eliminado 2023 · SharePlay iOS activo</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>GroupWatch — co-viewing nativo para 7 usuarios (eliminado en 2023, cost-cutting)</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>SharePlay vía FaceTime — hasta 32 personas, audio y subtítulos independientes por usuario</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Sistema de recomendaciones entre usuarios</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Lista compartida nativa</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Perfiles múltiples por cuenta (familia)</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#0F2560"></div>Disney eliminó GroupWatch por costos, no por falta de demanda: refuerza que el co-watching es costoso de mantener para plataformas gratuitas o de bajo margen.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#0F2560"></div>Delegar el co-watching a SharePlay (ecosistema Apple) es una decisión de plataforma inteligente: reduce costo de mantenimiento, pero excluye a usuarios no-Apple.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#0F2560"></div>La separación de perfiles por perfil familiar es el patrón correcto para Roberto (60): acceso diferenciado sin ver el historial del otro.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"GroupWatch wasn't an account sharing service — but Disney concluded the cost of delivering and supporting group viewing isn't worth it." — TechRadar, 2023</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: perfiles separados por integrante del grupo familiar</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: depender de sistemas operativos de terceros (SharePlay = solo Apple)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HBO MAX -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#5822B4;">📡</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">HBO Max (Max)</div>
+        <div class="bm-platform-sub">SharePlay soportado · sin social nativo</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>SharePlay vía FaceTime/iMessage — disponible globalmente para suscriptores (Ad-Free y Ultimate Ad-Free, 2024)</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Acceso via botón "Share" en la ficha del contenido directamente</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Sistema nativo de recomendaciones entre amigos</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Lista pública compartible</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Problemas reportados: pantalla en negro y audio desincronizado en SharePlay</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#5822B4"></div>El botón "Share" en la ficha del contenido es el patrón de UX más limpio para iniciar una recomendación: el usuario está justo en el momento de decisión.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#5822B4"></div>La implementación técnica importa: si SharePlay tiene pantalla en negro, el usuario desiste. La promesa de la feature no basta si la ejecución falla.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#5822B4"></div>Restringir la feature a planes premium crea fricción de adopción: para Meli Play (gratuito), la recomendación social debe ser universal, no gatekeada.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"WBD has announced that SharePlay is now available to Max subscribers globally (Ad-Free and Ultimate Ad-Free tiers) with adult profiles." — Advanced Television, julio 2024</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: Share desde la ficha del contenido como punto de entrada principal</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: restringir la feature de recomendación a ciertos planes/perfiles</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLE TV+ -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#1c1c1e;">🍎</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Apple TV+</div>
+        <div class="bm-platform-sub">SharePlay nativo · integración ecosistema Apple</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>SharePlay nativo vía FaceTime — hasta 32 personas, sincronización de reproducción</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Compartir por iMessage directamente desde la ficha del contenido</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Cada participante elige subtítulos y audio en su idioma de manera independiente</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>No soportado por Teleparty (extensión de terceros)</div>
+          <div class="feat-row"><div class="feat-icon fi-no">✗</div>Sistema de recomendación social nativo fuera del ecosistema Apple</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#555"></div>La integración "audio y subtítulos independientes por usuario" es el único feature de personalización individual dentro de una sesión grupal — valioso para familias multilingüe.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#555"></div>Apple TV+ demuestra que el flujo share-from-content-page → iMessage → ver juntos es la experiencia más fluida del mercado, pero solo para el ecosistema Apple.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#555"></div>El aprendizaje clave: Meli Play debe resolver el mismo flujo sin depender de ningún ecosistema (Android, iOS, Web, TV) para ser inclusivo con todos los arquetipos.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"SharePlay on Disney+ can host up to 32 people and offer each participant the ability to choose audio and subtitles in their preferred language." — MacRumors</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: configuración individual de subtítulos/audio por usuario en sesión</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: lock-in de ecosistema como requisito para la feature social</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRUNCHYROLL -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#F47521;">⛩</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Crunchyroll</div>
+        <div class="bm-platform-sub">Crunchylists compartibles · Discord Rich Presence · benchmark de listas sociales</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Crunchylists — listas temáticas personalizadas de hasta 100 títulos, compartibles por enlace. Disponible sin suscripción premium.</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Discord Rich Presence — muestra qué estás mirando en tu perfil de Discord en tiempo real</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Watch Together — sincronización con chat en tiempo real</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Múltiples perfiles por cuenta (lanzado abril 2024) — historial y recomendaciones independientes</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Wishlist compartible para regalos (store, no streaming)</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#F47521"></div>Crunchylists es el benchmark más cercano al problema de Meli Play: listas curatoriales temáticas compartibles, disponibles incluso sin suscripción. Reduce la fricción de adopción radicalmente.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#F47521"></div>Discord Rich Presence resuelve el pain de Andrés (30): "qué están mirando mis contactos ahora mismo" sin necesitar una red social propia. Se apoya en infraestructura de terceros donde los usuarios ya están.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#F47521"></div>Separar watchlist personal de listas compartibles es el patrón correcto: permite privacidad en lo que quiero ver y visibilidad en lo que quiero recomendar.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"One of the only streaming services to provide custom list features. Not only does Crunchyroll let you label and add whatever you want, but you can also share your Crunchylists with other users — and you don't even need an active subscription." — How-To Geek</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: listas temáticas compartibles + disponibles sin premium + Discord-like status</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: depender de Discord u otra plataforma social que los usuarios 40+ y 60+ no usen</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEAM -->
+  <div class="bm-platform">
+    <div class="bm-platform-header" onclick="toggle(this)">
+      <div class="bm-logo" style="background:#1B2838;">🎮</div>
+      <div style="flex:1">
+        <div class="bm-platform-name">Steam</div>
+        <div class="bm-platform-sub">Benchmark de referencia · activity feed de amigos · wishlist social · referencia de oro</div>
+      </div>
+      <div class="bm-chevron">▼</div>
+    </div>
+    <div class="bm-body">
+      <div class="bm-cols">
+        <div>
+          <div class="bm-col-label">Funcionalidades relevadas</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Activity Feed de amigos — qué compraron, pusieron en wishlist, logros obtenidos, tiempo de juego</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Wishlist pública y compartible — amigos ven qué juegos quieres; útil para regalos y descubrimiento</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Perfiles sociales con biblioteca, historial y reviews — visibilidad configurable</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Notificación cuando un juego de tu wishlist entra en oferta</div>
+          <div class="feat-row"><div class="feat-icon fi-yes">✓</div>Reviews de usuarios + recomendaciones por pares verificados (han jugado el título)</div>
+          <div class="feat-row"><div class="feat-icon fi-par">~</div>Privacidad granular por contenido: puedes ocultar juegos específicos del activity feed</div>
+        </div>
+        <div>
+          <div class="bm-col-label">Aprendizajes para Meli Play</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#1B2838"></div>El activity feed de Steam es considerado la feature social más valorada en plataformas de entretenimiento: "he descubierto muchísimos juegos solo mirando qué wishlisted mi hermano" — fuerza del descubrimiento pasivo.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#1B2838"></div>La wishlist pública + notificación de oferta crea un loop de utilidad: amigos descubren tus intereses, pueden regalarte, y tú recibís notificaciones de precio. Aplicable a "quiero ver" en Meli Play.</div>
+          <div class="insight-row"><div class="ins-dot" style="background:#1B2838"></div>La privacidad granular resuelve el aprendizaje de Netflix: no es "mostrar todo" o "mostrar nada", sino control por contenido. Permite intimidad sin perder el valor social.</div>
+        </div>
+      </div>
+      <div class="bm-quote">"Steam isn't my main platform, but whenever I launch it, no feature makes me more jealous than that singular page. It shows what games your friends bought, wishlisted, what achievements they earned. I've discovered SO many games just looking at that page." — ResetEra, 2025</div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <div class="verdict-row v-adopt" style="flex:1">✓ Adoptar: activity feed asíncrono + wishlist compartible + privacidad granular por contenido</div>
+        <div class="verdict-row v-avoid" style="flex:1">✗ Evitar: exponer playtime/historial completo sin que el usuario lo decida conscientemente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIX COMPARATIVA -->
+  <div class="matrix-wrap">
+    <div class="matrix-title">Matriz comparativa de funcionalidades</div>
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Plataforma</th>
+          <th>Lista compartible</th>
+          <th>Recomendación P2P</th>
+          <th>Activity feed amigos</th>
+          <th>Co-watching</th>
+          <th>Privacidad granular</th>
+          <th>Sin premium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="platform-cell">Netflix</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-disc"></span> discontinuado</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">Amazon Prime</td>
+          <td><span class="dot-yes"></span> playlist</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-disc"></span> discontinuado</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">Disney+</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-par"></span> SharePlay iOS</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">HBO Max</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-par"></span> SharePlay iOS</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">Apple TV+</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-par"></span> iMessage</td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-no"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">Crunchyroll</td>
+          <td><span class="dot-yes"></span> Crunchylists</td>
+          <td><span class="dot-par"></span> Discord</td>
+          <td><span class="dot-par"></span> via Discord</td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-par"></span></td>
+          <td><span class="dot-yes"></span></td>
+        </tr>
+        <tr>
+          <td class="platform-cell">Steam</td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-no"></span></td>
+          <td><span class="dot-yes"></span></td>
+          <td><span class="dot-yes"></span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="legend" style="margin-top:10px;">
+      <div class="legend-item"><span class="dot-yes"></span> Disponible</div>
+      <div class="legend-item"><span class="dot-par"></span> Parcial / limitado</div>
+      <div class="legend-item"><span class="dot-no"></span> No disponible</div>
+      <div class="legend-item"><span class="dot-disc"></span> Discontinuado</div>
+    </div>
+  </div>
+
+  <!-- PATRONES Y OPORTUNIDADES -->
+  <div class="pattern-section">
+    <div class="pattern-title">Patrones, brechas y oportunidades para Meli Play</div>
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <span class="pc-tag tag-pattern">Patrón común</span>
+        <h4>El co-watching síncrono no sobrevive post-pandemia</h4>
+        <p>Amazon lo discontinuó, Disney lo eliminó. El mercado migró al modelo asíncrono: recomendar para que el otro vea cuando quiera, no "ver juntos a la misma hora".</p>
+      </div>
+      <div class="pattern-card">
+        <span class="pc-tag tag-pattern">Patrón común</span>
+        <h4>La privacidad mata el social si no se resuelve bien</h4>
+        <p>Netflix eliminó su red social en 2010 porque los usuarios no quieren que sus contactos vean todo su historial. Steam resuelve esto con privacidad granular por contenido.</p>
+      </div>
+      <div class="pattern-card">
+        <span class="pc-tag tag-gap">Brecha detectada</span>
+        <h4>Ninguna plataforma tiene recomendación P2P cross-platform</h4>
+        <p>Todas dependen de ecosistemas (Apple SharePlay), plataformas externas (Discord) o solo funcionan en una app. Nadie resuelve "enviá una recomendación a alguien en cualquier dispositivo".</p>
+      </div>
+      <div class="pattern-card">
+        <span class="pc-tag tag-gap">Brecha detectada</span>
+        <h4>Nadie tiene un "activity feed de amigos" para streaming</h4>
+        <p>Steam demuestra que ver qué wishlisted tu hermano genera descubrimiento orgánico. Ninguna plataforma de streaming ha replicado este patrón con éxito a escala.</p>
+      </div>
+      <div class="pattern-card">
+        <span class="pc-tag tag-opp">Oportunidad</span>
+        <h4>Meli Play puede ser la primera plataforma social-first cross-platform</h4>
+        <p>Estar en mobile, web y TV sin lock-in de ecosistema es una ventaja estructural. La recomendación puede funcionar igual para Roberto (60, Smart TV) que para Carla (21, mobile).</p>
+      </div>
+      <div class="pattern-card">
+        <span class="pc-tag tag-opp">Oportunidad</span>
+        <h4>Lista de "quiero ver" compartible es el feature más replicable</h4>
+        <p>Crunchylists es el patrón más directo: listas temáticas compartibles, disponibles sin premium, separadas del historial personal. Aplicable a los 4 arquetipos de Meli Play.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Síntesis para el diseño del feature</h3>
+    <div class="highlight-items">
+      <div class="hi-item"><div class="hi-num">01</div>Modelo asíncrono sobre síncrono: recomendación para que el otro vea cuando quiera, no co-watching en tiempo real.</div>
+      <div class="hi-item"><div class="hi-num">02</div>Separar lista personal ("quiero ver") de lista social ("lo que recomiendo"): privacidad por diseño, no por configuración.</div>
+      <div class="hi-item"><div class="hi-num">03</div>El punto de entrada es la ficha del contenido: HBO Max lo muestra bien — el usuario está en el momento de decisión justo cuando decide recomendar.</div>
+      <div class="hi-item"><div class="hi-num">04</div>Granularidad de privacidad a nivel de contenido individual (Steam): no "mostrar todo" o "mostrar nada".</div>
+      <div class="hi-item"><div class="hi-num">05</div>Disponible sin premium y cross-platform: los 4 arquetipos tienen dispositivos distintos; la feature no puede requerir iOS o plan pago.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.bm-chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>

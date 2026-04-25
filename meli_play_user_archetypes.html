@@ -1,0 +1,234 @@
+
+<h2 class="sr-only">Cuatro arquetipos de usuario de Meli Play basados en los pain points del brief</h2>
+
+<style>
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 1rem 0; }
+  .arch-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .arch-header { padding: 20px 20px 16px; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: flex-start; gap: 14px; }
+  .arch-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; font-style: normal; }
+  .arch-identity h3 { font-size: 16px; font-weight: 500; margin: 0 0 2px; color: var(--color-text-primary); }
+  .arch-identity p { font-size: 12px; color: var(--color-text-secondary); margin: 0; line-height: 1.4; }
+  .arch-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .arch-section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .arch-quote { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; font-style: italic; border-left: 2px solid var(--color-border-secondary); padding-left: 12px; margin: 0; border-radius: 0; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 99px; border: 0.5px solid; }
+  .pain-row { display: flex; flex-direction: column; gap: 6px; }
+  .pain-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .pain-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .need-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .need-check { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  .need-check svg { width: 9px; height: 9px; }
+  .arch-footer { padding: 12px 20px; border-top: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
+  .jtbd-label { font-size: 10px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .jtbd-text { font-size: 12px; color: var(--color-text-primary); line-height: 1.5; }
+
+  .c1-avatar { background: #E6F1FB; }
+  .c2-avatar { background: #EAF3DE; }
+  .c3-avatar { background: #FAEEDA; }
+  .c4-avatar { background: #FBEAF0; }
+
+  .c1-label { color: #185FA5; }
+  .c2-label { color: #3B6D11; }
+  .c3-label { color: #854F0B; }
+  .c4-label { color: #993556; }
+
+  .c1-tag { background: #E6F1FB; color: #0C447C; border-color: #B5D4F4; }
+  .c2-tag { background: #EAF3DE; color: #27500A; border-color: #C0DD97; }
+  .c3-tag { background: #FAEEDA; color: #633806; border-color: #FAC775; }
+  .c4-tag { background: #FBEAF0; color: #72243E; border-color: #F4C0D1; }
+
+  .c1-dot { background: #185FA5; }
+  .c2-dot { background: #3B6D11; }
+  .c3-dot { background: #854F0B; }
+  .c4-dot { background: #993556; }
+
+  .c1-check { background: #E6F1FB; }
+  .c2-check { background: #EAF3DE; }
+  .c3-check { background: #FAEEDA; }
+  .c4-check { background: #FBEAF0; }
+</style>
+
+<div class="arch-grid">
+
+  <!-- CARLA -->
+  <div class="arch-card">
+    <div class="arch-header">
+      <div class="arch-avatar c1-avatar" aria-hidden="true" style="font-size:22px;">🎧</div>
+      <div class="arch-identity">
+        <h3>Carla — La coleccionista social</h3>
+        <p>21 años · estudiante · mobile-first · alta actividad social</p>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div>
+        <p class="arch-section-label c1-label">Motivación central</p>
+        <p class="arch-quote">Ver lo que le recomienda su entorno inmediato. El contenido vale más cuando viene de alguien conocido.</p>
+      </div>
+      <div>
+        <p class="arch-section-label c1-label">Comportamiento en plataforma</p>
+        <div class="tag-row">
+          <span class="tag c1-tag">Navega sin destino fijo</span>
+          <span class="tag c1-tag">Multitarea constante</span>
+          <span class="tag c1-tag">Comparte capturas</span>
+          <span class="tag c1-tag">Listas informales</span>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c1-label">Fricciones principales</p>
+        <div class="pain-row">
+          <div class="pain-item"><div class="pain-dot c1-dot"></div><span>Usa WhatsApp como lista de pendientes externa: no hay lugar en la app para guardar lo que le recomiendan</span></div>
+          <div class="pain-item"><div class="pain-dot c1-dot"></div><span>El loop se rompe: recibe la recomendación en otra app, la busca en Meli Play y pierde el contexto de quién se la mandó</span></div>
+          <div class="pain-item"><div class="pain-dot c1-dot"></div><span>No puede ver fácilmente "qué están mirando mis amigos ahora"</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c1-label">Qué necesita</p>
+        <div class="pain-row">
+          <div class="need-item"><div class="need-check c1-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Guardar recomendaciones de amigos directamente en Meli Play</span></div>
+          <div class="need-item"><div class="need-check c1-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Ver quién de su red está viendo qué contenido</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-footer">
+      <p class="jtbd-label">Job-to-be-done</p>
+      <p class="jtbd-text">Cuando mis amigos me recomiendan algo, quiero poder guardarlo en el mismo lugar donde lo voy a ver, para no perder el hilo social de la recomendación.</p>
+    </div>
+  </div>
+
+  <!-- VIRGINIA -->
+  <div class="arch-card">
+    <div class="arch-header">
+      <div class="arch-avatar c2-avatar" aria-hidden="true" style="font-size:22px;">🔒</div>
+      <div class="arch-identity">
+        <h3>Virginia — La curadora selectiva</h3>
+        <p>40 años · profesional · uso moderado · alta exigencia de calidad</p>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div>
+        <p class="arch-section-label c2-label">Motivación central</p>
+        <p class="arch-quote">No pierde el tiempo con contenido mediocre. Solo confía en criterios de personas de su entorno, nunca en algoritmos ni críticos.</p>
+      </div>
+      <div>
+        <p class="arch-section-label c2-label">Comportamiento en plataforma</p>
+        <div class="tag-row">
+          <span class="tag c2-tag">Sesiones cortas y focalizadas</span>
+          <span class="tag c2-tag">Ignora trending</span>
+          <span class="tag c2-tag">Busca títulos concretos</span>
+          <span class="tag c2-tag">Alta tasa de abandono</span>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c2-label">Fricciones principales</p>
+        <div class="pain-row">
+          <div class="pain-item"><div class="pain-dot c2-dot"></div><span>Las recomendaciones de la plataforma son de desconocidos o algoritmos: no tiene valor para ella</span></div>
+          <div class="pain-item"><div class="pain-dot c2-dot"></div><span>No puede filtrar el catálogo por "lo que recomiendan personas que conozco"</span></div>
+          <div class="pain-item"><div class="pain-dot c2-dot"></div><span>Sale de la plataforma cuando no encuentra algo validado: alta tasa de churn por sesión</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c2-label">Qué necesita</p>
+        <div class="pain-row">
+          <div class="need-item"><div class="need-check c2-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Una capa de recomendaciones de su red superpuesta al catálogo</span></div>
+          <div class="need-item"><div class="need-check c2-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Control total sobre quién puede recomendarle cosas</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-footer">
+      <p class="jtbd-label">Job-to-be-done</p>
+      <p class="jtbd-text">Cuando quiero elegir qué ver, necesito saber si alguien de mi confianza ya lo vio y lo valoró, para no invertir tiempo en algo que no me va a satisfacer.</p>
+    </div>
+  </div>
+
+  <!-- ROBERTO -->
+  <div class="arch-card">
+    <div class="arch-header">
+      <div class="arch-avatar c3-avatar" aria-hidden="true" style="font-size:22px;">📺</div>
+      <div class="arch-identity">
+        <h3>Roberto — El espectador familiar</h3>
+        <p>60 años · jubilado · baja alfabetización digital · consumo lineal</p>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div>
+        <p class="arch-section-label c3-label">Motivación central</p>
+        <p class="arch-quote">Ver contenido recomendado por su familia sin tener que navegar un catálogo complejo. La confianza es total hacia sus seres queridos.</p>
+      </div>
+      <div>
+        <p class="arch-section-label c3-label">Comportamiento en plataforma</p>
+        <div class="tag-row">
+          <span class="tag c3-tag">Sesiones largas y pasivas</span>
+          <span class="tag c3-tag">Prefiere TV o tablet</span>
+          <span class="tag c3-tag">No usa búsqueda</span>
+          <span class="tag c3-tag">Necesita guía externa</span>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c3-label">Fricciones principales</p>
+        <div class="pain-row">
+          <div class="pain-item"><div class="pain-dot c3-dot"></div><span>El catálogo completo lo abruma: no sabe por dónde empezar sin una recomendación previa de alguien de su familia</span></div>
+          <div class="pain-item"><div class="pain-dot c3-dot"></div><span>No existe una vista simplificada que le muestre solo "lo que recomienda mi familia"</span></div>
+          <div class="pain-item"><div class="pain-dot c3-dot"></div><span>Depende de que un familiar lo llame o visite para recibir una recomendación: la frecuencia de uso cae entre visitas</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c3-label">Qué necesita</p>
+        <div class="pain-row">
+          <div class="need-item"><div class="need-check c3-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Un acceso directo tipo "Lo que recomienda mi familia" en la pantalla de inicio</span></div>
+          <div class="need-item"><div class="need-check c3-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Interfaz reducida con pocos elementos y acciones grandes</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-footer">
+      <p class="jtbd-label">Job-to-be-done</p>
+      <p class="jtbd-text">Cuando abro Meli Play solo, quiero encontrar de inmediato lo que mi familia me dejó recomendado, sin tener que navegar ni recordar títulos.</p>
+    </div>
+  </div>
+
+  <!-- ANDRÉS -->
+  <div class="arch-card">
+    <div class="arch-header">
+      <div class="arch-avatar c4-avatar" aria-hidden="true" style="font-size:22px;">🔗</div>
+      <div class="arch-identity">
+        <h3>Andrés — El intermediario tecnológico</h3>
+        <p>30 años · trabajador activo · tech-savvy · rol de puente familiar</p>
+      </div>
+    </div>
+    <div class="arch-body">
+      <div>
+        <p class="arch-section-label c4-label">Motivación central</p>
+        <p class="arch-quote">Quiere que las recomendaciones que su padre le hace oralmente lleguen a la plataforma sin que él tenga que actuar como proxy manual.</p>
+      </div>
+      <div>
+        <p class="arch-section-label c4-label">Comportamiento en plataforma</p>
+        <div class="tag-row">
+          <span class="tag c4-tag">Uso frecuente y variado</span>
+          <span class="tag c4-tag">Busca activamente</span>
+          <span class="tag c4-tag">Conecta generaciones</span>
+          <span class="tag c4-tag">Frustración acumulada</span>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c4-label">Fricciones principales</p>
+        <div class="pain-row">
+          <div class="pain-item"><div class="pain-dot c4-dot"></div><span>Actúa como traductor manual: su padre recomienda oralmente, él busca el título exacto en Google porque su padre lo recuerda mal</span></div>
+          <div class="pain-item"><div class="pain-dot c4-dot"></div><span>No puede enviarle a su padre una recomendación que aparezca directamente en su pantalla de Meli Play</span></div>
+          <div class="pain-item"><div class="pain-dot c4-dot"></div><span>El esfuerzo de la recomendación recae sobre él, no sobre la plataforma: es un trabajo invisible y repetitivo</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="arch-section-label c4-label">Qué necesita</p>
+        <div class="pain-row">
+          <div class="need-item"><div class="need-check c4-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#993556" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Enviar una recomendación a su padre desde la ficha del contenido con un toque</span></div>
+          <div class="need-item"><div class="need-check c4-check"><svg viewBox="0 0 10 10"><polyline points="2,5 4,7.5 8,2.5" fill="none" stroke="#993556" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Que su padre la reciba directamente en su pantalla de inicio, sin intermediarios</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="arch-footer">
+      <p class="jtbd-label">Job-to-be-done</p>
+      <p class="jtbd-text">Cuando mi padre me menciona algo que quiere ver, necesito poder enviárselo directamente a su Meli Play sin que él tenga que buscarlo ni recordar el título.</p>
+    </div>
+  </div>
+
+</div>
